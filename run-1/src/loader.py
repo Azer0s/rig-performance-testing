@@ -41,7 +41,7 @@ def load():
     produce(p, "rig", payload, "to_be_delivered")
     p.flush()
 
-    for i in range(100):
+    for i in range(1000):
         for _ in range(1000):
             produce(p, "rig", payload, "ignored")
         p.flush()
