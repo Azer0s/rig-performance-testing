@@ -17,3 +17,5 @@
 .DS_Store
 
 run-2/src/__pycache__/
+
+__pycache__/

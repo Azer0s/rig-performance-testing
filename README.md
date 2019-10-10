@@ -18,7 +18,8 @@ CLIENTS=1 GOMAXPROCS=2 go run run-1/src/client.go
 ### Start loader
 
 ```bash
-python3 run-1/src/loader.py
+cd run-1/src
+python3 loader.py
 ```
 
 ## Run 2
@@ -41,6 +42,6 @@ CLIENTS=3500 GOMAXPROCS=4 go run run-1/src/client.go
 ### Start loader
 
 ```bash
-./run-2/start
+cd run-2
+./start
 ```
-
