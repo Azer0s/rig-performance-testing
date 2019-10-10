@@ -61,7 +61,7 @@ def print_progress(i):
 def load_10k_include_all(header={"eventType": "to_be_delivered"}):
     start = time.time()
     for i in range(10):
-        for _ in range(1000):
+        for _ in range(1001):
             produce(p, "rig", payload, header)
         p.flush()
 
