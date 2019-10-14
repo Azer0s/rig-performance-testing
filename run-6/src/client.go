@@ -14,16 +14,20 @@ import (
 func receive(i, topic int) (float64, error) {
 	var start time.Time
 
-	count := 1
+	count := 0
 	events := make(chan *sse.Event)
 	topicStr := "chatroom_message" + strconv.Itoa(topic)
 	url := "http://localhost:4000/_rig/v1/connection/sse?subscriptions=[{\"eventType\":\"" + topicStr + "\"}]"
 
-	fmt.Println(url)
+	fmt.Println("Topic:", topicStr, "\t| Thread:", i)
 
 	client := sse.NewClient(url)
 
-	client.SubscribeChanRaw(events)
+	err := client.SubscribeChanRaw(events)
+
+	if err != nil {
+		return 0, err
+	}
 
 	for event := range events {
 		if string(event.Event) != topicStr {
@@ -32,18 +36,19 @@ func receive(i, topic int) (float64, error) {
 
 		count++
 
-		if count == 2 {
+		if count == 1 {
 			start = time.Now()
-		}
-
-		if count%100 == 0 {
-			go fmt.Println("Count:", count, "| Thread:", i, "| Topic:", topic)
 		}
 
 		if count == 1000 {
 			elapsed := time.Since(start).Seconds()
 			return elapsed, nil
 		}
+
+		if count%100 == 0 {
+			go fmt.Println("Count:", count, "\t| Thread:", i, "\t| Topic:", topic)
+		}
+
 	}
 
 	return 0, errors.New("")
@@ -51,7 +56,6 @@ func receive(i, topic int) (float64, error) {
 
 func main() {
 	var wg sync.WaitGroup
-	var mutex = &sync.Mutex{}
 
 	goroutines, _ := strconv.Atoi(os.Getenv("CLIENTS"))
 	topic := 1
@@ -61,11 +65,14 @@ func main() {
 	for i := 1; i <= goroutines; i++ {
 		wg.Add(1)
 		go func(i, topic int) {
-			elapsed, _ := receive(i, topic)
+			elapsed, err := receive(i, topic)
 
-			mutex.Lock()
+			if err != nil {
+				fmt.Println("Error:", err)
+				return
+			}
+
 			fmt.Println("Thread", i, "finished in", elapsed, "s")
-			mutex.Unlock()
 
 			wg.Done()
 		}(i, topic)
