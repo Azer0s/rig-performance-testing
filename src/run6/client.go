@@ -1,4 +1,4 @@
-package main
+package run6
 
 import (
 	"errors"
@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"sync"
 	"time"
+
+	loadtest ".."
 
 	"github.com/r3labs/sse"
 )
@@ -85,6 +87,16 @@ func main() {
 	}
 
 	fmt.Println("Waiting for goroutines to finish...")
-	wg.Wait()
-	fmt.Println("Done")
+
+	duration, err := time.ParseDuration("20s")
+
+	if err != nil {
+		if loadtest.WaitTimeout(&wg, duration) {
+			fmt.Println("Timed out waiting for wait group")
+		} else {
+			fmt.Println("Wait group finished")
+		}
+	} else {
+		fmt.Println("Error while parsing timeout!")
+	}
 }
