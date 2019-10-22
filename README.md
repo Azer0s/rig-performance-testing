@@ -60,7 +60,7 @@ mix phx.server
 ### Start clients
 
 ```bash
-CLIENTS=1000 GOMAXPROCS=4 go run src/run6/client.go
+CLIENTS=1000 TIMEOUT=1h go run src/run6/client.go
 ```
 
 ### Start loader
