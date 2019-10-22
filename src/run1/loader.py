@@ -2,23 +2,20 @@ import sys
 sys.path.append("../..")
 import load as l
 
-def load():
-    start = l.time.time()
-
+def load_tbd():
+    print("Loading to_be_delivered message...")
     l.produce(l.p, "rig", l.payload, "to_be_delivered")
     l.p.flush()
 
-    for i in range(1000):
+def load():
+    start = l.time.time()
+
+    for i in range(100):
         for _ in range(1000):
             l.produce(l.p, "rig", l.payload, "ignored")
         l.p.flush()
 
         l.print_progress(i)
-
-    l.produce(l.p, "rig", l.payload, "to_be_delivered")
-    l.p.flush()
     
     end = l.time.time()
     print(end - start)
-
-load()

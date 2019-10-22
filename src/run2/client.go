@@ -8,6 +8,8 @@ import (
 	"sync"
 	"time"
 
+	loadtest ".."
+
 	"github.com/r3labs/sse"
 )
 
@@ -66,6 +68,10 @@ func main() {
 	}
 
 	fmt.Println("Waiting for goroutines to finish...")
-	wg.Wait()
-	fmt.Println("Done")
+
+	if loadtest.WaitTimeout(&wg, os.Getenv("TIMEOUT")) {
+		fmt.Println("Timed out waiting for wait group")
+	} else {
+		fmt.Println("Wait group finished")
+	}
 }

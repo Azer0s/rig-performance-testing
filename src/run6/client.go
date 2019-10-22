@@ -1,4 +1,4 @@
-package run6
+package main
 
 import (
 	"errors"
@@ -88,15 +88,9 @@ func main() {
 
 	fmt.Println("Waiting for goroutines to finish...")
 
-	duration, err := time.ParseDuration(os.Getenv("TIMEOUT"))
-
-	if err != nil {
-		if loadtest.WaitTimeout(&wg, duration) {
-			fmt.Println("Timed out waiting for wait group")
-		} else {
-			fmt.Println("Wait group finished")
-		}
+	if loadtest.WaitTimeout(&wg, os.Getenv("TIMEOUT")) {
+		fmt.Println("Timed out waiting for wait group")
 	} else {
-		fmt.Println("Error while parsing timeout!")
+		fmt.Println("Wait group finished")
 	}
 }
