@@ -1,5 +1,5 @@
 import sys
-sys.path.append("../..")
+sys.path.append("..")
 import load as l
 
 def load_for_multiple_topics(messages_in_k, topics):
