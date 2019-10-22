@@ -5,10 +5,11 @@ from random import choice
 import locale
 import uuid
 import time
+import os
 
 locale.setlocale(locale.LC_ALL, 'en_US')
 
-a = AdminClient({"bootstrap.servers": "localhost:9092"})
+a = AdminClient({"bootstrap.servers": os.getenv("KAFKA_HOST", "localhost:9092")})
 
 def delete_topic():
     for _, f in a.delete_topics(["rig"]).items():
@@ -27,7 +28,7 @@ def clear_topic():
     delete_topic()
     recreate_topic()
 
-p = Producer({"bootstrap.servers": "localhost:9092", "message.max.bytes": 2048})
+p = Producer({"bootstrap.servers": os.getenv("KAFKA_HOST", "localhost:9092"), "message.max.bytes": 2048})
 
 # This is exactly 1 kB or 1000 bytes
 payload = """

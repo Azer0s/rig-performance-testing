@@ -29,12 +29,15 @@ services:
     restart: on-failure:5
   clients:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: run2/Dockerfile
     depends_on:
       - rig
     environment:
-      CLIENTS: 1000
+      WAIT: 30s
+      CLIENTS: 10
+      TIMEOUT: 30m
+      RIG_HOST: rig
   rig:
     image: "accenture/reactive-interaction-gateway:latest"
     depends_on: 

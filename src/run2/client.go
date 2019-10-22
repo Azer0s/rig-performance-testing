@@ -18,7 +18,7 @@ func receive(i int) (float64, error) {
 
 	count := 1
 	events := make(chan *sse.Event)
-	client := sse.NewClient("http://localhost:4000/_rig/v1/connection/sse?subscriptions=[{\"eventType\":\"chatroom_message\"}]")
+	client := sse.NewClient("http://" + os.Getenv("HOSTNAME") + ":4000/_rig/v1/connection/sse?subscriptions=[{\"eventType\":\"chatroom_message\"}]")
 
 	client.SubscribeChanRaw(events)
 
@@ -49,6 +49,20 @@ func receive(i int) (float64, error) {
 func main() {
 	var wg sync.WaitGroup
 	var mutex = &sync.Mutex{}
+
+	if os.Getenv("RIG_HOST") == "" {
+		fmt.Println("RIG_HOST environment variable required!")
+		os.Exit(1)
+	}
+
+	wait, err := time.ParseDuration(os.Getenv("WAIT"))
+
+	if err != nil {
+		fmt.Println("WAIT environment variable required!")
+		os.Exit(1)
+	}
+
+	time.Sleep(wait)
 
 	goroutines, _ := strconv.Atoi(os.Getenv("CLIENTS"))
 
