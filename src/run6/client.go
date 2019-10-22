@@ -88,7 +88,7 @@ func main() {
 
 	fmt.Println("Waiting for goroutines to finish...")
 
-	duration, err := time.ParseDuration("20s")
+	duration, err := time.ParseDuration(os.Getenv("TIMEOUT"))
 
 	if err != nil {
 		if loadtest.WaitTimeout(&wg, duration) {

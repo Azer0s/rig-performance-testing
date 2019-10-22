@@ -1,4 +1,4 @@
 FROM golang:latest
-COPY . .
+COPY .. .
 RUN go get github.com/r3labs/sse 
-CMD ["go", "run", "client.go"]
+CMD ["go", "run", "run2/client.go"]
