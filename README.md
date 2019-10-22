@@ -12,7 +12,8 @@ mix phx.server
 ### Start clients
 
 ```bash
-CLIENTS=1 GOMAXPROCS=2 go run src/run1/client.go
+cd src/run1
+go run src/run1/client.go
 ```
 
 ### Start loader
@@ -36,7 +37,7 @@ mix phx.server
 ### Start clients
 
 ```bash
-CLIENTS=3500 GOMAXPROCS=4 go run run2/src/client.go
+CLIENTS=100 TIMEOUT=10m GOMAXPROCS=4 go run run2/client.go
 ```
 
 ### Start loader
