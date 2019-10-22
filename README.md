@@ -37,7 +37,7 @@ mix phx.server
 ### Start clients
 
 ```bash
-CLIENTS=100 TIMEOUT=10m GOMAXPROCS=4 go run run2/client.go
+CLIENTS=100 TIMEOUT=10m WAIT=0s RIG_HOST=localhost GOMAXPROCS=4 go run run2/client.go
 ```
 
 ### Start loader

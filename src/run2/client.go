@@ -18,7 +18,7 @@ func receive(i int) (float64, error) {
 
 	count := 1
 	events := make(chan *sse.Event)
-	client := sse.NewClient("http://" + os.Getenv("HOSTNAME") + ":4000/_rig/v1/connection/sse?subscriptions=[{\"eventType\":\"chatroom_message\"}]")
+	client := sse.NewClient("http://" + os.Getenv("RIG_HOST") + ":4000/_rig/v1/connection/sse?subscriptions=[{\"eventType\":\"chatroom_message\"}]")
 
 	client.SubscribeChanRaw(events)
 
