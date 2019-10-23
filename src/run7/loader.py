@@ -15,5 +15,3 @@ def load():
 
         l.p.flush()
         i += 1
-
-load()
