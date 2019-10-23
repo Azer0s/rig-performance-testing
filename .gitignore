@@ -19,3 +19,5 @@
 run-2/src/__pycache__/
 
 __pycache__/
+
+.idea/

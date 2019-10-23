@@ -1,11 +1,9 @@
+import locale
+import os
+import uuid
+
 from confluent_kafka import Producer
 from confluent_kafka.admin import AdminClient, NewTopic
-from sys import stdin
-from random import choice
-import locale
-import uuid
-import time
-import os
 
 locale.setlocale(locale.LC_ALL, 'en_US')
 
@@ -52,6 +50,6 @@ Diam ut venenatis tellus in metus vulputate", "source": "tutorial"}
 def produce(p, topic, payload, etype):
     p.produce(topic, payload.replace("???", etype).replace("###", str(uuid.uuid1())).encode("utf-8"))
 
-def print_progress(i):
-    num = locale.format("%d", ((i + 1) * 1000), grouping=True)
+def print_progress(i, times = 1000):
+    num = locale.format("%d", ((i + 1) * times), grouping=True)
     print(f"Loaded: {num}")
