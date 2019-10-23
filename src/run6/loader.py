@@ -3,7 +3,7 @@ sys.path.append("..")
 import load as l
 
 def load_for_multiple_topics(messages_in_k, topics):
-    start = l.time.time()
+    start = time.time()
     topic = 1
     for i in range(messages_in_k):
         # Because we're using SSE, we can't guarantee that every message reaches its destinations
@@ -18,5 +18,5 @@ def load_for_multiple_topics(messages_in_k, topics):
         l.p.flush()
 
         l.print_progress(i)
-    end = l.time.time()
+    end = time.time()
     print(end - start)

@@ -8,7 +8,7 @@ def load_tbd():
     l.p.flush()
 
 def load():
-    start = l.time.time()
+    start = time.time()
 
     for i in range(100):
         for _ in range(1000):
@@ -17,5 +17,5 @@ def load():
 
         l.print_progress(i)
     
-    end = l.time.time()
+    end = time.time()
     print(end - start)
