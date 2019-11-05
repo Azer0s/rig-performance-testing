@@ -1,6 +1,6 @@
 import sys
-sys.path.append("..")
-import load as l
+from .. import load as l
+import time
 
 def load_10k_include_all():
     start = time.time()

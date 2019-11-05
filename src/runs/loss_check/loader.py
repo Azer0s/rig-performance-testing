@@ -1,6 +1,5 @@
 import sys
-sys.path.append("..")
-import load as l
+from .. import load as l
 import time
 
 payload = """

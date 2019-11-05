@@ -1,6 +1,6 @@
 import sys
-sys.path.append("..")
-import load as l
+from .. import load as l
+import time
 
 def load_for_multiple_topics(messages_in_k, topics):
     start = time.time()

@@ -21,7 +21,7 @@ func Receive(i, amount, printSteps int, sub string) (float64, error) {
 	client.SubscribeChanRaw(events)
 
 	for event := range events {
-		if string(event.Event) != "deliver" {
+		if string(event.Event) != sub {
 			continue
 		}
 
