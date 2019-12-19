@@ -5,8 +5,6 @@ import uuid
 from confluent_kafka import Producer
 from confluent_kafka.admin import AdminClient, NewTopic
 
-locale.setlocale(locale.LC_ALL, 'en_US')
-
 a = AdminClient({"bootstrap.servers": os.getenv("KAFKA_HOST", "localhost:9092")})
 
 def delete_topic():

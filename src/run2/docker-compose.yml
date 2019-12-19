@@ -30,7 +30,7 @@ services:
   clients:
     build:
       context: ..
-      dockerfile: run2/Dockerfile
+      dockerfile: run2/client.Dockerfile
     depends_on:
       - rig
     environment:
@@ -38,6 +38,14 @@ services:
       CLIENTS: 10
       TIMEOUT: 30m
       RIG_HOST: rig
+  loader:
+    build:
+      context: ..
+      dockerfile: run2/loader.Dockerfile
+    depends_on: 
+      - clients
+    environment:
+      KAFKA_HOST: kafka:9092
   rig:
     image: "accenture/reactive-interaction-gateway:latest"
     depends_on: 

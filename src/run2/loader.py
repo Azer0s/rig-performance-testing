@@ -1,5 +1,5 @@
 import sys
-from .. import load as l
+import load as l
 import time
 
 def load_10k_include_all():
