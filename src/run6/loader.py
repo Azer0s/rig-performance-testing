@@ -1,5 +1,5 @@
 import sys
-from .. import load as l
+import load as l
 import time
 
 def load_for_multiple_topics(messages_in_k, topics):
