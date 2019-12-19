@@ -1,50 +1,25 @@
+### ENV Variables - Client
+```ini
+CLIENTS=100
+TIMEOUT=10m
+WAIT=0s
+RIG_HOST=localhost
+GOMAXPROCS=4
+```
+
 ## Run 1
 
-### Start RIG
-
-```bash
-# Start Kafka first
-export LOG_LEVEL=error
-export KAFKA_BROKERS=localhost:9092
-mix phx.server
-```
-
-### Start clients
-
 ```bash
 cd src/run1
-go run src/run1/client.go
-```
-
-### Start loader
-
-```bash
-cd src/run1
-python3 loader.py
+docker-compose up
 ```
 
 ## Run 2
 
-### Start RIG
-
-```bash
-# Start Kafka first
-export LOG_LEVEL=error
-export KAFKA_BROKERS=localhost:9092
-mix phx.server
-```
-
-### Start clients
-
-```bash
-CLIENTS=100 TIMEOUT=10m WAIT=0s RIG_HOST=localhost GOMAXPROCS=4 go run run2/client.go
-```
-
-### Start loader
 
 ```bash
 cd src/run2
-./start
+docker-compose up
 ```
 
 ## Run 6

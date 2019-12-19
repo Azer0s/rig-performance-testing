@@ -3,18 +3,20 @@ FAIL=0
 
 set -m
 
-python3 main.py 1_tbd
+sleep 45
 
-python3 main.py 1 &
-python3 main.py 1 &
-python3 main.py 1 &
-python3 main.py 1 &
-python3 main.py 1 &
-python3 main.py 1 &
-python3 main.py 1 &
-python3 main.py 1 &
-python3 main.py 1 &
-python3 main.py 1 &
+python3 -c 'import loader as run1_loader; run1_loader.load_tbd()'
+
+python3 -c 'import loader as run1_loader; run1_loader.load()' &
+python3 -c 'import loader as run1_loader; run1_loader.load()' &
+python3 -c 'import loader as run1_loader; run1_loader.load()' &
+python3 -c 'import loader as run1_loader; run1_loader.load()' &
+python3 -c 'import loader as run1_loader; run1_loader.load()' &
+python3 -c 'import loader as run1_loader; run1_loader.load()' &
+python3 -c 'import loader as run1_loader; run1_loader.load()' &
+python3 -c 'import loader as run1_loader; run1_loader.load()' &
+python3 -c 'import loader as run1_loader; run1_loader.load()' &
+python3 -c 'import loader as run1_loader; run1_loader.load()' &
 wait
 
-python3 main.py 1_tbd
+python3 -c 'import loader as run1_loader; run1_loader.load_tbd()'
