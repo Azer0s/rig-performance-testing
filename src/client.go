@@ -3,9 +3,12 @@ package loadtest
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strconv"
+	"strings"
 	"time"
+	"net/http"
 
 	"github.com/r3labs/sse"
 )
@@ -44,17 +47,15 @@ func Receive(i, amount, printSteps int, sub string) (float64, error) {
 	return 0, errors.New("")
 }
 
+func handler(w http.ResponseWriter, r *http.Request){
+	fmt.Fprint(w, "OK")
+}
+
 // GetEnv Checks env and returns amount of goroutines to start
 func GetEnv() (int, string) {
+
 	if os.Getenv("RIG_HOST") == "" {
 		fmt.Println("RIG_HOST environment variable required!")
-		os.Exit(1)
-	}
-
-	wait, err := time.ParseDuration(os.Getenv("WAIT"))
-
-	if err != nil {
-		fmt.Println("WAIT environment variable required!")
 		os.Exit(1)
 	}
 
@@ -75,6 +76,25 @@ func GetEnv() (int, string) {
 		os.Exit(1)
 	}
 
-	time.Sleep(wait)
+	fmt.Println("Waiting until RIG goes online...")
+
+	for {
+		resp, err := http.Get("http://" + os.Getenv("RIG_HOST") + ":4010/health")
+
+		if err == nil {
+			body, err := ioutil.ReadAll(resp.Body)
+			resp.Body.Close()
+
+			if err == nil {
+				if strings.Contains(string(body), "OK") {
+					break
+				}
+			}
+		}
+	}
+
+	http.HandleFunc("/", handler)
+	go http.ListenAndServe(":9999", nil)
+
 	return goroutines, os.Getenv("TIMEOUT")
 }

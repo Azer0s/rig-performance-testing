@@ -28,13 +28,14 @@ services:
       KAFKA_NUM_PARTITIONS: 4
     restart: on-failure:5
   clients:
+    ports: 
+      - 9999:9999
     build:
       context: ..
       dockerfile: run2/client.Dockerfile
     depends_on:
       - rig
     environment:
-      WAIT: 30s
       CLIENTS: 10
       TIMEOUT: 30m
       RIG_HOST: rig
