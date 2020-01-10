@@ -5,8 +5,11 @@
 
 sleep 45
 
+echo "Using clients $CLIENTS"
+echo "Waiting for clients to come online..."
+
 while true; do
-    status=$(curl -s "clients:9999")
+    status=$(curl -s "$CLIENTS:9999")
 
     if [[ $status == *"OK"* ]]; then
         break

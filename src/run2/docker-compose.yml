@@ -47,6 +47,7 @@ services:
       - clients
     environment:
       KAFKA_HOST: kafka:9092
+      CLIENTS: clients
   rig:
     image: "accenture/reactive-interaction-gateway:latest"
     depends_on: 
