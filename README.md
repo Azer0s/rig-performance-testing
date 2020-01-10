@@ -10,7 +10,7 @@ WAIT=30s
 RIG_HOST=rig
 ```
 
-###Start
+### Start
 ```bash
 cd src/run1
 docker-compose up
