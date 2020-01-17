@@ -1,3 +1,11 @@
+## Requirements
+
+* `docker`
+* `docker-compose`
+* `kubectl` (>= v1.11)
+* `timeout`
+* `helm` (>= v3)
+
 ## Run 1
 
 Send one message, send 1M ignored messages, send one message again.
