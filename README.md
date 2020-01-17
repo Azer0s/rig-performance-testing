@@ -12,8 +12,7 @@ RIG_HOST=rig
 
 ### Start
 ```bash
-cd src/run1
-docker-compose up
+./start_run1.sh
 ```
 
 ## Run 2
@@ -30,8 +29,7 @@ RIG_HOST=rig
 
 ### Start
 ```bash
-cd src/run2
-docker-compose up
+./start_run2.sh
 ```
 
 ## Run 6
@@ -48,7 +46,6 @@ RIG_HOST=rig
 
 ### Start
 ```bash
-cd src/run6
-docker-compose up
+./start_run6.sh
 ```
 
