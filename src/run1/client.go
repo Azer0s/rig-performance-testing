@@ -13,12 +13,14 @@ func main() {
 
 	goroutines, timeout := loadtest.GetEnv()
 
+	ctrl := make(chan bool)
+
 	fmt.Println("Starting", goroutines, "goroutines")
 
 	for i := 1; i <= goroutines; i++ {
 		wg.Add(1)
 		go func(i int) {
-			elapsed, _ := loadtest.Receive(0, 3, 1, "to_be_delivered")
+			elapsed, _ := loadtest.Receive(0, 3, 1, "to_be_delivered", ctrl)
 
 			mutex.Lock()
 			fmt.Println("Thread", i, "finished in", elapsed, "s")
@@ -26,7 +28,10 @@ func main() {
 
 			wg.Done()
 		}(i)
+		<-ctrl
 	}
+
+	go loadtest.StatusOk()
 
 	fmt.Println("Waiting for goroutines to finish...")
 

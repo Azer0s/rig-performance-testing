@@ -4,17 +4,17 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"strconv"
 	"strings"
 	"time"
-	"net/http"
 
 	"github.com/r3labs/sse"
 )
 
 // Receive & time measurement loop
-func Receive(i, amount, printSteps int, sub string) (float64, error) {
+func Receive(i, amount, printSteps int, sub string, ctrl chan bool) (float64, error) {
 	var start time.Time
 
 	count := 1
@@ -22,6 +22,8 @@ func Receive(i, amount, printSteps int, sub string) (float64, error) {
 	client := sse.NewClient("http://" + os.Getenv("RIG_HOST") + ":4000/_rig/v1/connection/sse?subscriptions=[{\"eventType\":\"" + sub + "\"}]")
 
 	client.SubscribeChanRaw(events)
+
+	ctrl <- true
 
 	for event := range events {
 		if string(event.Event) != sub {
@@ -47,8 +49,14 @@ func Receive(i, amount, printSteps int, sub string) (float64, error) {
 	return 0, errors.New("")
 }
 
-func handler(w http.ResponseWriter, r *http.Request){
+func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "OK")
+}
+
+// StatusOk serves HTTP server to signal all is well
+func StatusOk() {
+	http.HandleFunc("/", handler)
+	http.ListenAndServe(":9999", nil)
 }
 
 // GetEnv Checks env and returns amount of goroutines to start
@@ -92,9 +100,6 @@ func GetEnv() (int, string) {
 			}
 		}
 	}
-
-	http.HandleFunc("/", handler)
-	go http.ListenAndServe(":9999", nil)
 
 	return goroutines, os.Getenv("TIMEOUT")
 }

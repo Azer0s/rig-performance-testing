@@ -14,12 +14,14 @@ func main() {
 	goroutines, timeout := loadtest.GetEnv()
 	topic := 1
 
+	ctrl := make(chan bool)
+
 	fmt.Println("Starting", goroutines, "goroutines")
 
 	for i := 1; i <= goroutines; i++ {
 		wg.Add(1)
 		go func(i, topic int) {
-			elapsed, err := loadtest.Receive(i, 1000, 100, "chatroom_message"+strconv.Itoa(topic))
+			elapsed, err := loadtest.Receive(i, 1000, 100, "chatroom_message"+strconv.Itoa(topic), ctrl)
 
 			if err != nil {
 				fmt.Println("Error:", err)
@@ -31,12 +33,16 @@ func main() {
 			wg.Done()
 		}(i, topic)
 
+		<-ctrl
+
 		topic = topic + 1
 
 		if topic > 100 {
 			topic = 1
 		}
 	}
+
+	go loadtest.StatusOk()
 
 	fmt.Println("Waiting for goroutines to finish...")
 

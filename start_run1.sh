@@ -4,10 +4,10 @@ set -m
 
 helm install kafka incubator/kafka -f ./kafka/chart/values.yml
 
-while [[ 
-    $(kubectl get pods -l app=kafka -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True"
-]]; do echo "waiting for pod" && sleep 1; done
-
+kubectl wait --for=condition=Ready --timeout=5m pod/kafka-zookeeper-0
+kubectl wait --for=condition=Ready --timeout=5m pod/kafka-zookeeper-1
+kubectl wait --for=condition=Ready --timeout=5m pod/kafka-zookeeper-2
+kubectl wait --for=condition=Ready --timeout=5m pod/kafka-0
 
 helm install rig ./rig/chart
 
@@ -17,16 +17,14 @@ docker-compose build
 chmod +x start_k8s.sh
 ./start_k8s.sh
 
-while [[ 
-    $(kubectl get pods -l app=run1-clients-deployment -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" &&
-    $(kubectl get pods -l app=run1-loader-deployment -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" 
-]]; do echo "waiting for pod" && sleep 1; done
+kubectl wait --for=condition=Ready --timeout=5m "pod/$(kubectl get pods -l 'app=run1-clients-deployment' -o jsonpath='{.items[0].metadata.name}')"
+kubectl wait --for=condition=Ready --timeout=5m "pod/$(kubectl get pods -l 'app=run1-loader-deployment' -o jsonpath='{.items[0].metadata.name}')"
 
 echo "Starting log collection..."
 
 cd ../..
 
-timeout 60s bash <<EOT
+timeout 10m bash <<EOT
 kubectl logs "$(kubectl get pods -l 'app=run1-clients-deployment' -o jsonpath='{.items[0].metadata.name}')" -f > run1.client.log
 EOT
 
