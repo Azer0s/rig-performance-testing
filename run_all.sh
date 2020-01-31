@@ -10,5 +10,4 @@ echo "Grafana: kubectl port-forward $(kubectl get pods -l 'app=grafana,release=g
 #./start_run2.sh
 #./start_run6.sh
 
-helm uninstall grafana
-helm uninstall prometheus
+#grafana and prometheus have to be uninstalled

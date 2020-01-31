@@ -1,7 +1,7 @@
 image:
-  repository: run1_loader
+  repository: azer0s/rig-perf-test-run1-loader
   tag: latest
-  pullPolicy: Never # needed for local Kubernetes cluster (docker desktop)
+  pullPolicy: Always # needed for local Kubernetes cluster (docker desktop)
 
 deployment:
   env:
