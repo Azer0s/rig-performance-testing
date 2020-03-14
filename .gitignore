@@ -21,3 +21,5 @@ run-2/src/__pycache__/
 __pycache__/
 
 .idea/
+
+src/loss_check/log.csv

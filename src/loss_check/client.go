@@ -101,6 +101,8 @@ func main() {
 		}(i)
 	}
 
+	fmt.Println("Connected!")
+
 	if loadtest.WaitTimeout(&wg, os.Getenv("TIMEOUT")) {
 		fmt.Println("Timed out waiting for wait group")
 	} else {
